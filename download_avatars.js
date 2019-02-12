@@ -1,6 +1,6 @@
 var secrets = require('./secrets.js');
 var request = require('request');
-var https = require('https');
+// var https = require('https');
 var fs = require('fs');
 var repoOwner = process.argv[2];
 var repoName = process.argv[3];
