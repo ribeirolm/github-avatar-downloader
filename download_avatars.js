@@ -24,29 +24,28 @@ function getRepoContributors(repoOwner, repoName, cb) {
   request(options, function (err, res, body) {
     if (!err && res.statusCode === 200) {
     var info = JSON.parse(body);
-    info.forEach(function(user){
-      var avatar = user.avatar_url;
-      //console.log(avatar);
-    })
-    }
+    cb(err, info);
+    };
   });
 }
 
-function downloadImageByURL(url, filePath) {
-  request.get(url)
+function downloadImageByURL(avatar, filePath) {
+  request.get(avatar)
   .on('error', function(error){
      throw error;
   })
   .on('response', function(response){
     console.log('Downloading image...');
   })
-  .pipe(fs.createWriteStream(`./${filePath}`));
-};
-
-downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg");
+  .pipe(fs.createWriteStream(`./avatars/${filePath}.jpg`));
+}
 
 
-getRepoContributors("jquery", "jquery", function(err, result) {
-  console.log("Errors:", err);
-  console.log("Result:", result);
+
+getRepoContributors("jquery", "jquery", function(err, info){
+  info.forEach(function(user){
+      var avatar = user.avatar_url;
+      var filePath = user.login;
+      downloadImageByURL (avatar, filePath);
+  });
 });
