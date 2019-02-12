@@ -18,6 +18,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
         'Authorization': `token ${secrets.GITHUB_TOKEN}`
       }
     };
+    //TEST:
     // console.log(options.url);
 
     request(options, function (err, res, body) {
@@ -48,7 +49,7 @@ getRepoContributors(process.argv[2], process.argv[3], function(err, info){
   });
 });
 
-
+//TEST BELOW:
 // getRepoContributors("jquery", "jquery", function(err, info){
 //   info.forEach(function(user){
 //       var avatar = user.avatar_url;
