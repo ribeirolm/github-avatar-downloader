@@ -8,6 +8,7 @@
 var secrets = require('./secrets.js');
 var request = require('request');
 var https = require('https');
+var fs = require('fs');
 
 console.log('Welcome to the GitHub Avatar Downloader!');
 
@@ -25,11 +26,24 @@ function getRepoContributors(repoOwner, repoName, cb) {
     var info = JSON.parse(body);
     info.forEach(function(user){
       var avatar = user.avatar_url;
-      console.log(avatar);
+      //console.log(avatar);
     })
     }
   });
 }
+
+function downloadImageByURL(url, filePath) {
+  request.get(url)
+  .on('error', function(error){
+     throw error;
+  })
+  .on('response', function(response){
+    console.log('Downloading image...');
+  })
+  .pipe(fs.createWriteStream(`./${filePath}`));
+};
+
+downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg");
 
 
 getRepoContributors("jquery", "jquery", function(err, result) {
